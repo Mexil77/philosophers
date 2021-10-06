@@ -6,17 +6,15 @@
 #    By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 18:31:58 by emgarcia          #+#    #+#              #
-#    Updated: 2021/10/05 21:59:26 by emgarcia         ###   ########.fr        #
+#    Updated: 2021/10/06 21:42:31 by emgarcia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS	=	ft_libft.c main.c
+SRCS	=	ft_philo.c ft_aux.c ft_libft.c main.c
 OBJS	=	${SRCS:.c=.o}
 NAME	=	philo
 CC		=	gcc
-#CFLAGS	=	-Wall -Wextra -Werror -lpthread
 CFLAGS	=	-Wall -Wextra -Werror
-#CFLAGS	=	-lpthread
 RM		=	rm -rf
 
 all: ${NAME}

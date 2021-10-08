@@ -6,7 +6,7 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 21:41:47 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/06 22:50:47 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/08 19:18:45 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,25 @@ size_t	ft_cangetforks(t_table *table, size_t i)
 	return (0);
 }
 
+void	ft_eat(t_table *table, size_t i)
+{
+	printf("[ seg ] philo[%zu] is eating\n", i + 1);
+	if (i + 1 == table->philosize)
+		table->philos[0].ownfork = 1;
+	else
+		table->philos[i + 1].ownfork = 1;
+	table->philos[i].ownfork = 1;
+	table->philos[i].forkl = 0;
+	table->philos[i].forkr = 0;
+}
+
+size_t	ft_caneat(t_table *table, size_t i)
+{
+	if (table->philos[i].forkl && table->philos[i].forkr)
+		return (1);
+	return (0);
+}
+
 void	*ft_philo(void *ta)
 {
 	t_table			*table;
@@ -48,6 +67,10 @@ void	*ft_philo(void *ta)
 	pthread_mutex_lock(&table->printmutex);
 	if (ft_cangetforks(table, i))
 		ft_getforks(table, i);
+	pthread_mutex_unlock(&table->printmutex);
+	pthread_mutex_lock(&table->printmutex);
+	if (ft_caneat(table, i))
+		ft_eat(table, i);
 	i++;
 	pthread_mutex_unlock(&table->printmutex);
 	return (NULL);

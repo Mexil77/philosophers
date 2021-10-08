@@ -6,7 +6,7 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 15:59:29 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/06 22:33:36 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/08 17:45:59 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ int	main(int argc, char const *argv[])
 	i = -1;
 	while (table.philos[++i].able)
 		pthread_join(h[i], NULL);
-	i = -1;
-	while (table.philos[++i].able)
-		ft_printphilo(table.philos[i]);
+	//ft_printphilos(table.philos);
 	free(table.philos);
 	return (0);
 }

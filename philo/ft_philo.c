@@ -6,72 +6,73 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 21:41:47 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/08 19:18:45 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/10 22:16:57 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_getforks(t_table *table, size_t i)
+void	ft_eat(t_philo *phi)
 {
-	if (i + 1 == table->philosize)
-		table->philos[0].ownfork = 0;
-	else
-		table->philos[i + 1].ownfork = 0;
-	table->philos[i].ownfork = 0;
-	table->philos[i].forkl = 1;
-	printf("[ seg ] philo[%zu] has taken a fork\n", i + 1);
-	table->philos[i].forkr = 1;
-	printf("[ seg ] philo[%zu] has taken a fork\n", i + 1);
-}
-
-size_t	ft_cangetforks(t_table *table, size_t i)
-{
-	size_t	il;
 	size_t	ir;
 
-	il = i;
-	ir = i + 1;
-	if (i + 1 == table->philosize)
+	ir = phi->index;
+	if (ir == phi->table->philosize)
 		ir = 0;
-	if (table->philos[il].ownfork && table->philos[ir].ownfork)
-		return (1);
-	return (0);
-}
-
-void	ft_eat(t_table *table, size_t i)
-{
-	printf("[ seg ] philo[%zu] is eating\n", i + 1);
-	if (i + 1 == table->philosize)
-		table->philos[0].ownfork = 1;
+	if (phi->index % 2 == 0)
+	{
+		pthread_mutex_lock(&phi->table->philos[ir].mutownfork);
+		pthread_mutex_lock(&phi->table->philos[ir].print);
+		printf(CYAN "[ %zu ] philo[%zu] has taken a fork\n" RESET, time(0) - phi->table->tini, phi->index);
+		pthread_mutex_unlock(&phi->table->philos[ir].print);
+		pthread_mutex_lock(&phi->mutownfork);
+		pthread_mutex_lock(&phi->print);
+		printf(CYAN "[ %zu ] philo[%zu] has taken a fork\n" RESET, time(0) - phi->table->tini, phi->index);
+		pthread_mutex_unlock(&phi->print);
+	}
 	else
-		table->philos[i + 1].ownfork = 1;
-	table->philos[i].ownfork = 1;
-	table->philos[i].forkl = 0;
-	table->philos[i].forkr = 0;
+	{
+		pthread_mutex_lock(&phi->mutownfork);
+		pthread_mutex_lock(&phi->print);
+		printf(CYAN "[ %zu ] philo[%zu] has taken a fork\n" RESET, time(0) - phi->table->tini, phi->index);
+		pthread_mutex_unlock(&phi->print);
+		pthread_mutex_lock(&phi->table->philos[ir].mutownfork);
+		pthread_mutex_lock(&phi->table->philos[ir].print);
+		printf(CYAN "[ %zu ] philo[%zu] has taken a fork\n" RESET, time(0) - phi->table->tini, phi->index);
+		pthread_mutex_unlock(&phi->table->philos[ir].print);
+	}
+	printf(YELLOW "[ %zu ] philo[%zu] is eating\n" RESET, time(0) - phi->table->tini, phi->index);
+	usleep(1000000);
+	phi->leat = time(0);
+	pthread_mutex_unlock(&phi->table->philos[ir].mutownfork);
+	pthread_mutex_unlock(&phi->mutownfork);
 }
 
-size_t	ft_caneat(t_table *table, size_t i)
+void	ft_think(t_philo *phi)
 {
-	if (table->philos[i].forkl && table->philos[i].forkr)
-		return (1);
-	return (0);
+	pthread_mutex_lock(&phi->print);
+	printf(GREEN "[ %zu ] philo[%zu] is thinking\n" RESET, time(0) - phi->table->tini, phi->index);
+	pthread_mutex_unlock(&phi->print);
 }
 
-void	*ft_philo(void *ta)
+void	ft_sleep(t_philo *phi)
 {
-	t_table			*table;
-	static size_t	i = 0;
+	pthread_mutex_lock(&phi->print);
+	printf(MAGENTA "[ %zu ] philo[%zu] is sleeping\n" RESET, time(0) - phi->table->tini, phi->index);
+	pthread_mutex_unlock(&phi->print);
+	usleep(2000000);
+}
 
-	table = (t_table *)ta;
-	pthread_mutex_lock(&table->printmutex);
-	if (ft_cangetforks(table, i))
-		ft_getforks(table, i);
-	pthread_mutex_unlock(&table->printmutex);
-	pthread_mutex_lock(&table->printmutex);
-	if (ft_caneat(table, i))
-		ft_eat(table, i);
-	i++;
-	pthread_mutex_unlock(&table->printmutex);
+void	*ft_philo(void *ph)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)ph;
+	while (1)
+	{
+		ft_eat(philo);
+		ft_think(philo);
+		ft_sleep(philo);
+	}
 	return (NULL);
 }

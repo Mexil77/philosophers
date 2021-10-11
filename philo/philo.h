@@ -6,7 +6,7 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 16:00:51 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/10 22:05:54 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/11 18:31:57 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <string.h>
 # include <unistd.h>
 # include <pthread.h>
+# include <sys/time.h>
 
 # define RED     "\x1b[31m"
 # define GREEN   "\x1b[32m"
@@ -34,17 +35,19 @@ typedef struct s_philo {
 	pthread_mutex_t	mutownfork;
 	pthread_mutex_t	print;
 	pthread_t		thread;
-	time_t			leat;
 	struct s_table	*table;
+	uintptr_t		leat;
 }			t_philo;
 
 typedef struct s_table {
-	t_philo	*philos;
-	size_t	philosize;
-	time_t	tini;
-	time_t	teat;
-	time_t	tsleep;
-	time_t	tdead;
+	t_philo				*philos;
+	size_t				philosize;
+	struct timeval		tv;
+	struct timezone		tz;
+	uintptr_t			tini;
+	uintptr_t			teat;
+	uintptr_t			tsleep;
+	uintptr_t			tdead;
 }			t_table;
 
 int		ft_atoi(const char *str);

@@ -6,61 +6,63 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 21:41:47 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/10 22:16:57 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/12 22:12:58 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_eat(t_philo *phi)
+void	ft_dead(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->print);
+	ft_printmsg(philo, 4, "is dead");
+	pthread_mutex_unlock(&philo->print);
+	exit(0);
+}
+
+void	ft_eat(t_philo *philo)
 {
 	size_t	ir;
 
-	ir = phi->index;
-	if (ir == phi->table->philosize)
+	ir = philo->index;
+	if (ir == philo->table->philosize)
 		ir = 0;
-	if (phi->index % 2 == 0)
-	{
-		pthread_mutex_lock(&phi->table->philos[ir].mutownfork);
-		pthread_mutex_lock(&phi->table->philos[ir].print);
-		printf(CYAN "[ %zu ] philo[%zu] has taken a fork\n" RESET, time(0) - phi->table->tini, phi->index);
-		pthread_mutex_unlock(&phi->table->philos[ir].print);
-		pthread_mutex_lock(&phi->mutownfork);
-		pthread_mutex_lock(&phi->print);
-		printf(CYAN "[ %zu ] philo[%zu] has taken a fork\n" RESET, time(0) - phi->table->tini, phi->index);
-		pthread_mutex_unlock(&phi->print);
-	}
+	if (philo->index > 1)
+		usleep(100);
+	if (philo->index == philo->table->philosize)
+		ft_forkright(philo, ir);
 	else
-	{
-		pthread_mutex_lock(&phi->mutownfork);
-		pthread_mutex_lock(&phi->print);
-		printf(CYAN "[ %zu ] philo[%zu] has taken a fork\n" RESET, time(0) - phi->table->tini, phi->index);
-		pthread_mutex_unlock(&phi->print);
-		pthread_mutex_lock(&phi->table->philos[ir].mutownfork);
-		pthread_mutex_lock(&phi->table->philos[ir].print);
-		printf(CYAN "[ %zu ] philo[%zu] has taken a fork\n" RESET, time(0) - phi->table->tini, phi->index);
-		pthread_mutex_unlock(&phi->table->philos[ir].print);
-	}
-	printf(YELLOW "[ %zu ] philo[%zu] is eating\n" RESET, time(0) - phi->table->tini, phi->index);
-	usleep(1000000);
-	phi->leat = time(0);
-	pthread_mutex_unlock(&phi->table->philos[ir].mutownfork);
-	pthread_mutex_unlock(&phi->mutownfork);
+		ft_forkleft(philo, ir);
+	if (ft_timenow() - philo->leat + philo->table->teat >= philo->table->tdead)
+		ft_dead(philo);
+	usleep(1000);
+	pthread_mutex_lock(&philo->print);
+	ft_printmsg(philo, 1, "is eating");
+	pthread_mutex_unlock(&philo->print);
+	usleep(philo->table->teat * 1000);
+	philo->leat = ft_timenow();
+	pthread_mutex_unlock(&philo->table->philos[ir].mutownfork);
+	pthread_mutex_unlock(&philo->mutownfork);
 }
 
-void	ft_think(t_philo *phi)
+void	ft_think(t_philo *philo)
 {
-	pthread_mutex_lock(&phi->print);
-	printf(GREEN "[ %zu ] philo[%zu] is thinking\n" RESET, time(0) - phi->table->tini, phi->index);
-	pthread_mutex_unlock(&phi->print);
+	if (ft_timenow() - philo->leat >= philo->table->tdead)
+		ft_dead(philo);
+	pthread_mutex_lock(&philo->print);
+	ft_printmsg(philo, 2, "is thinking");
+	pthread_mutex_unlock(&philo->print);
+	usleep(1000);
 }
 
-void	ft_sleep(t_philo *phi)
+void	ft_sleep(t_philo *philo)
 {
-	pthread_mutex_lock(&phi->print);
-	printf(MAGENTA "[ %zu ] philo[%zu] is sleeping\n" RESET, time(0) - phi->table->tini, phi->index);
-	pthread_mutex_unlock(&phi->print);
-	usleep(2000000);
+	pthread_mutex_lock(&philo->print);
+	ft_printmsg(philo, 3, "is sleeping");
+	pthread_mutex_unlock(&philo->print);
+	usleep(philo->table->tsleep * 1000);
+	if (ft_timenow() - philo->leat >= philo->table->tdead)
+		ft_dead(philo);
 }
 
 void	*ft_philo(void *ph)

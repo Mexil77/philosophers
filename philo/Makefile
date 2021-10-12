@@ -6,11 +6,11 @@
 #    By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 18:31:58 by emgarcia          #+#    #+#              #
-#    Updated: 2021/10/06 21:42:31 by emgarcia         ###   ########.fr        #
+#    Updated: 2021/10/12 19:01:36 by emgarcia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS	=	ft_philo.c ft_aux.c ft_libft.c main.c
+SRCS	=	ft_fork.c ft_philo.c ft_aux.c ft_libft.c main.c
 OBJS	=	${SRCS:.c=.o}
 NAME	=	philo
 CC		=	gcc

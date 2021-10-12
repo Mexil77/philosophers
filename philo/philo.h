@@ -6,7 +6,7 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 16:00:51 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/11 18:31:57 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/12 18:04:55 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,24 @@ typedef struct s_philo {
 	pthread_mutex_t	print;
 	pthread_t		thread;
 	struct s_table	*table;
-	uintptr_t		leat;
+	long			leat;
 }			t_philo;
 
 typedef struct s_table {
 	t_philo				*philos;
 	size_t				philosize;
-	struct timeval		tv;
-	struct timezone		tz;
-	uintptr_t			tini;
-	uintptr_t			teat;
-	uintptr_t			tsleep;
-	uintptr_t			tdead;
+	long				tini;
+	long				teat;
+	long				tsleep;
+	long				tdead;
 }			t_table;
 
 int		ft_atoi(const char *str);
 size_t	ft_strlen(const char *str);
 void	*ft_philo(void *phi);
-
-void	ft_printphilos(t_philo *philos);
-void	ft_printphilo(t_philo philo);
+long	ft_timenow(void);
+void	ft_printmsg(t_philo *philo, size_t color, char *msg);
+void	ft_forkright(t_philo *philo, size_t	ir);
+void	ft_forkleft(t_philo *philo, size_t ir);
 
 #endif

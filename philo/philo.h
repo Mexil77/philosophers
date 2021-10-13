@@ -6,7 +6,7 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 16:00:51 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/13 04:26:24 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/13 06:54:44 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ void	ft_forkright(t_philo *philo, size_t	ir);
 void	ft_forkleft(t_philo *philo, size_t ir);
 size_t	ft_alleaten(t_philo	*philo);
 void	ft_unlockforks(t_table *table);
+void	ft_dead(t_philo *philo);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 21:41:47 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/13 04:38:44 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/13 07:22:42 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	ft_eat(t_philo *philo)
 		ft_dead(philo);
 		return ;
 	}
-	usleep(1000);
 	pthread_mutex_lock(&philo->print);
 	ft_printmsg(philo, 1, "is eating");
 	pthread_mutex_unlock(&philo->print);

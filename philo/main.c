@@ -6,7 +6,7 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 15:59:29 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/13 20:16:45 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/13 20:31:27 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,11 @@ int	main(int argc, char const *argv[])
 	t_table	table;
 	size_t	i;
 
-	if (argc < 5 || argc > 6)
+	if (argc < 5 || argc > 6 || !ft_validatedata(argc, argv))
+	{
 		printf("Wrong arguments.\n");
-	if (!ft_validatedata(argc, argv))
-		printf("Wrong arguments.\n");
+		return (0);
+	}
 	table = ft_initable(argc, argv);
 	if (!table.philos)
 		return (0);

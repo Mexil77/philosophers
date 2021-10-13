@@ -6,7 +6,7 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 21:41:47 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/13 07:22:42 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/13 16:45:17 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	ft_dead(t_philo *philo)
 {
-	philo->table->died++;
-	pthread_mutex_lock(&philo->print);
 	ft_printmsg(philo, 4, "is dead");
-	pthread_mutex_unlock(&philo->print);
+	philo->table->died++;
 	ft_unlockforks(philo->table);
 }
 
@@ -31,15 +29,13 @@ void	ft_eat(t_philo *philo)
 	if (ir == philo->table->philosize)
 		ir = 0;
 	ft_forkright(philo, ir);
-	if (ft_timenow() - philo->leat + philo->table->teat >= philo->table->tdead)
+	if (ft_timenow() - philo->leat + philo->table->teat > philo->table->tdead)
 	{
 		ft_dead(philo);
 		return ;
 	}
-	pthread_mutex_lock(&philo->print);
 	ft_printmsg(philo, 1, "is eating");
-	pthread_mutex_unlock(&philo->print);
-	usleep(philo->table->teat * 1000);
+	ft_usleep(philo->table->teat);
 	philo->eatens++;
 	philo->leat = ft_timenow();
 	pthread_mutex_unlock(&philo->table->philos[ir].mutownfork);
@@ -55,19 +51,15 @@ void	ft_think(t_philo *philo)
 		ft_dead(philo);
 		return ;
 	}
-	pthread_mutex_lock(&philo->print);
 	ft_printmsg(philo, 2, "is thinking");
-	pthread_mutex_unlock(&philo->print);
 }
 
 void	ft_sleep(t_philo *philo)
 {
 	if (philo->table->died)
 		return ;
-	pthread_mutex_lock(&philo->print);
 	ft_printmsg(philo, 3, "is sleeping");
-	pthread_mutex_unlock(&philo->print);
-	usleep(philo->table->tsleep * 1000);
+	ft_usleep(philo->table->tsleep);
 	if (ft_timenow() - philo->leat >= philo->table->tdead)
 	{
 		ft_dead(philo);
@@ -96,5 +88,6 @@ void	*ft_philo(void *ph)
 		if (philo->table->died)
 			break ;
 	}
+	pthread_join(philo->thread, NULL);
 	return (NULL);
 }

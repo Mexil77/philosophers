@@ -6,7 +6,7 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 16:00:51 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/13 06:54:44 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/13 16:43:22 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ typedef struct s_philo {
 	size_t			index;
 	size_t			eatens;
 	pthread_mutex_t	mutownfork;
-	pthread_mutex_t	print;
 	pthread_t		thread;
 	struct s_table	*table;
 	long			leat;
 }			t_philo;
 
 typedef struct s_table {
+	pthread_mutex_t	print;
 	t_philo			*philos;
 	size_t			philosize;
 	size_t			musteat;
@@ -59,5 +59,6 @@ void	ft_forkleft(t_philo *philo, size_t ir);
 size_t	ft_alleaten(t_philo	*philo);
 void	ft_unlockforks(t_table *table);
 void	ft_dead(t_philo *philo);
+void	ft_usleep(long time);
 
 #endif

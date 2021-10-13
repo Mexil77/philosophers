@@ -6,7 +6,7 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 16:00:51 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/12 18:04:55 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/13 04:26:24 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@
 # define RESET   "\x1b[0m"
 
 typedef struct s_philo {
-	size_t			able;
 	size_t			index;
-	size_t			ownfork;
+	size_t			eatens;
 	pthread_mutex_t	mutownfork;
 	pthread_mutex_t	print;
 	pthread_t		thread;
@@ -40,12 +39,14 @@ typedef struct s_philo {
 }			t_philo;
 
 typedef struct s_table {
-	t_philo				*philos;
-	size_t				philosize;
-	long				tini;
-	long				teat;
-	long				tsleep;
-	long				tdead;
+	t_philo			*philos;
+	size_t			philosize;
+	size_t			musteat;
+	size_t			died;
+	long			tini;
+	long			teat;
+	long			tsleep;
+	long			tdead;
 }			t_table;
 
 int		ft_atoi(const char *str);
@@ -55,5 +56,7 @@ long	ft_timenow(void);
 void	ft_printmsg(t_philo *philo, size_t color, char *msg);
 void	ft_forkright(t_philo *philo, size_t	ir);
 void	ft_forkleft(t_philo *philo, size_t ir);
+size_t	ft_alleaten(t_philo	*philo);
+void	ft_unlockforks(t_table *table);
 
 #endif

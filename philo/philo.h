@@ -6,7 +6,7 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 16:00:51 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/13 16:43:22 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/13 17:38:25 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,10 @@ typedef struct s_table {
 }			t_table;
 
 int		ft_atoi(const char *str);
-size_t	ft_strlen(const char *str);
 void	*ft_philo(void *phi);
 long	ft_timenow(void);
 void	ft_printmsg(t_philo *philo, size_t color, char *msg);
-void	ft_forkright(t_philo *philo, size_t	ir);
-void	ft_forkleft(t_philo *philo, size_t ir);
+void	ft_getforks(t_philo *philo, size_t	ir);
 size_t	ft_alleaten(t_philo	*philo);
 void	ft_unlockforks(t_table *table);
 void	ft_dead(t_philo *philo);

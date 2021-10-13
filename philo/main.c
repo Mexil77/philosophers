@@ -6,7 +6,7 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 15:59:29 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/13 16:35:47 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/13 18:20:20 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,24 @@ void	ft_createthread(t_philo	*philo)
 	pthread_create(&(philo->thread), NULL, ft_philo, philo);
 }
 
+size_t	ft_validatedata(int argc, const char **argv)
+{
+	if (ft_atoi(argv[1]) < 0 || ft_atoi(argv[2]) < 0
+		|| ft_atoi(argv[3]) < 0 || ft_atoi(argv[4]) < 0
+		|| (argc == 6 && ft_atoi(argv[5]) < 0))
+		return (0);
+	return (1);
+}
+
 int	main(int argc, char const *argv[])
 {
 	t_table	table;
 	size_t	i;
 
-	if (!argc)
-		printf("%s\n", argv[0]);
+	if (argc < 5 || argc > 6)
+		return (0);
+	if (!ft_validatedata(argc, argv))
+		return (0);
 	table = ft_initable(argc, argv);
 	if (!table.philos)
 		return (0);

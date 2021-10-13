@@ -6,7 +6,7 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 21:41:47 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/13 16:45:17 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/13 17:32:03 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_eat(t_philo *philo)
 	ir = philo->index;
 	if (ir == philo->table->philosize)
 		ir = 0;
-	ft_forkright(philo, ir);
+	ft_getforks(philo, ir);
 	if (ft_timenow() - philo->leat + philo->table->teat > philo->table->tdead)
 	{
 		ft_dead(philo);

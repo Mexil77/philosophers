@@ -6,7 +6,7 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 15:59:29 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/13 20:31:27 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/13 22:53:33 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	ft_iniphilo(t_table *table)
 	{
 		table->philos[i].index = i + 1;
 		table->philos[i].eatens = 0;
-		table->philos[i].thread = malloc(sizeof(pthread_t));
 		pthread_mutex_init(&table->philos[i].mutownfork, NULL);
 		table->philos[i].table = table;
 		table->philos[i].leat = table->tini;

@@ -6,7 +6,7 @@
 /*   By: emgarcia <emgarcia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 21:41:47 by emgarcia          #+#    #+#             */
-/*   Updated: 2021/10/13 17:32:03 by emgarcia         ###   ########.fr       */
+/*   Updated: 2021/10/13 22:43:03 by emgarcia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@ void	*ft_philo(void *ph)
 		if ((philo->table->musteat && ft_alleaten(philo)) || philo->table->died)
 			break ;
 		if (philo->table->died)
+		{
 			break ;
+		}
 	}
-	pthread_join(philo->thread, NULL);
 	return (NULL);
 }
